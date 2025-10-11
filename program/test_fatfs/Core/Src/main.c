@@ -1,20 +1,20 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2025 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * Copyright (c) 2025 STMicroelectronics.
+ * All rights reserved.
+ *
+ * This software is licensed under terms that can be found in the LICENSE file
+ * in the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -96,13 +96,47 @@ int main(void)
   MX_USART1_UART_Init();
   MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
+  // [] Mount The SD Card
+  // [] Find and print the card size & free space
+  // [] Create a new Text File
+  // [] Write to the text file using the f_puts() function
+  // [] Write to the text file using the f_write() function
+  // [] Read from the text file using the f_gets() function
+  // [] Read from the text file using the f_read() function
+  // [] Modify (update) an existing file
+  // [] Delete the file
+  // [] Unmount the SD Card
+
+  FATFS fatfs; // Fatfs handle
+  FIL fil; // File handle
+  FRESULT fres = FR_OK; // Result 
+
+  // Open the file system
+  fres = f_mount(&fatfs, "", 1);
+  if (fres == FR_NO_FILESYSTEM) {
+    // create a FAT file system
+    fres = f_mkfs("", 0, 0);
+    if (fres == FR_OK) {
+      // format sd card
+      fres = f_mount(NULL , "", 1);
+      fres = f_mount(&fatfs, "", 1);
+    } else {
+      // format failed
+      // UART output error message
+      while (1);
+    }
+  } else if (fres != FR_OK) {
+    // mount error 
+    // UART output error message
+    while (1);
+  }
+  // mount successful
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  while (1)
-  {
+  while (1) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -264,8 +298,7 @@ void Error_Handler(void)
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
-  while (1)
-  {
+  while (1) {
   }
   /* USER CODE END Error_Handler_Debug */
 }
