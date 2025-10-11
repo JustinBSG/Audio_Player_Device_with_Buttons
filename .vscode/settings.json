@@ -1,0 +1,7 @@
+{
+  "files.associations": {
+    "fatfs.h": "c",
+    "user_diskio.h": "c",
+    "sd_card_fs.h": "c"
+  }
+}
