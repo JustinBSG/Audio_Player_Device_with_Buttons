@@ -1,0 +1,9 @@
+../Core/Src/sd_card_fs.c:10:6:sd_card_init	8	static
+../Core/Src/sd_card_fs.c:15:9:sd_card_mount	4	static
+../Core/Src/sd_card_fs.c:17:9:sd_card_unmount	4	static
+../Core/Src/sd_card_fs.c:19:9:sd_card_format	4	static
+../Core/Src/sd_card_fs.c:21:9:sd_card_get_free_space	16	static
+../Core/Src/sd_card_fs.c:23:9:sd_card_create_file	16	static
+../Core/Src/sd_card_fs.c:25:9:sd_card_read_file	24	static
+../Core/Src/sd_card_fs.c:27:9:sd_card_write_file	24	static
+../Core/Src/sd_card_fs.c:29:6:sd_card_test	528	static

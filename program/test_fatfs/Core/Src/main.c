@@ -94,9 +94,12 @@ int main(void) {
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_USART1_UART_Init();
-  sd_card_init();
+
   /* USER CODE BEGIN 2 */
-  sd_card_test();
+  // sd_card_init();
+  // sd_card_test();
+  char msg[] = "Hello, World!\n";
+  HAL_UART_Transmit(&huart1, (uint8_t *)msg, sizeof(msg) - 1, HAL_MAX_DELAY);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -105,6 +108,9 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    char data[] = "Blocking\n";
+    HAL_UART_Transmit(&huart1, (uint8_t *)data, sizeof(data) - 1, HAL_MAX_DELAY);
+    HAL_Delay(1000);
   }
   /* USER CODE END 3 */
 }
