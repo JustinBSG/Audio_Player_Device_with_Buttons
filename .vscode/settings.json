@@ -2,6 +2,8 @@
   "files.associations": {
     "fatfs.h": "c",
     "user_diskio.h": "c",
-    "sd_card_fs.h": "c"
+    "sd_card_fs.h": "c",
+    "main.h": "c",
+    "stm32f1xx_hal.h": "c"
   }
 }

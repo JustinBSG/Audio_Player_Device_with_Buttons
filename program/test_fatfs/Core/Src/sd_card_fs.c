@@ -53,7 +53,19 @@ FRESULT sd_card_get_free_space(int* free_byte) {
   *free_byte = free_space;
 }
 
+FRESULT sd_card_create_directory(const char* dir_name) {}
+
+FRESULT sd_card_delete_directory(const char* dir_name) {}
+
+FRESULT sd_card_cd(const char* dir_name) {}
+
+FRESULT sd_card_ls(char* filename[], int max_files, int* file_count) {}
+
+FRESULT sd_card_pwd(char* path, int max_len) {}
+
 FRESULT sd_card_create_file(const char* filename) {}
+
+FRESULT sd_card_delete_file(const char* filename) {}
 
 FRESULT sd_card_read_file(const char* filename, uint8_t* buffer, UINT bytes_to_read, UINT* bytes_read) {}
 
