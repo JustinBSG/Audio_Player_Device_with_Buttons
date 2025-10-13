@@ -76,26 +76,12 @@ void sd_card_test(void) {
   char uart_buffer[256];
 
   // mount the sd card
-  err = f_mount(&fatfs, "", 1);
-  if (err != FR_OK) {
-    sprintf(uart_buffer, "f_mount error: %d\n", err);
-    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
-    while (1);
-  }
-  sprintf(uart_buffer, "SD card mounted successfully.\n");
-  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  sd_card_mount();
 
   // get and print the sd card size and free space
+  int free_bytes;
+  sd_card_get_free_space(&free_bytes);
   err = f_getfree("", &free_clusters, &fatfs);
-  if (err != FR_OK) {
-    sprintf(uart_buffer, "f_getfree error: %d\n", err);
-    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
-    while (1);
-  }
-  total_size = (fatfs.n_fatent - 2) * fatfs.csize / 2; // in KB
-  free_space = free_clusters * fatfs.csize / 2;        // in KB
-  sprintf(uart_buffer, "SD card total size: %lu MB, free space: %lu MB\n", total_size, free_space);
-  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
 
   // // open a txt file and write data
   // // observe append or overwrite behavior, should be overwrite
@@ -174,12 +160,5 @@ void sd_card_test(void) {
   // HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
 
   // unmount the sd card
-  err = f_mount(NULL, "", 0);
-  if (err != FR_OK) {
-    sprintf(uart_buffer, "f_mount unmount error: %d\n", err);
-    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
-    while (1);
-  }
-  sprintf(uart_buffer, "SD card unmounted successfully.\n");
-  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  sd_card_unmount();
 }
