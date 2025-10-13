@@ -12,7 +12,7 @@ void sd_card_init(void);
 FRESULT sd_card_mount(void);
 FRESULT sd_card_unmount(void);
 FRESULT sd_card_format(void);
-FRESULT sd_card_get_free_space(int* free_kb);
+FRESULT sd_card_get_free_space(int* free_byte);
 
 FRESULT sd_card_create_directory(const char* dir_name);
 FRESULT sd_card_delete_directory(const char* dir_name);

@@ -95,7 +95,7 @@ int main(void) {
   /* USER CODE BEGIN 2 */
   sd_card_init();
   HAL_UART_Transmit(&huart1, (uint8_t *)"SD Card Initialized, UART!\n", 29, HAL_MAX_DELAY);
-  sd_card_test();
+  
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,6 +104,7 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+    sd_card_test();
     HAL_UART_Transmit(&huart1, (uint8_t *)"Blocking\n", 13, HAL_MAX_DELAY);
     HAL_Delay(1000);
   }

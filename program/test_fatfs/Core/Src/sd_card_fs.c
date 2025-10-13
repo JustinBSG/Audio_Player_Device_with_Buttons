@@ -38,7 +38,20 @@ FRESULT sd_card_unmount(void) {
 
 FRESULT sd_card_format(void) {}
 
-FRESULT sd_card_get_free_space(int* free_kb) {}
+FRESULT sd_card_get_free_space(int* free_byte) {
+  char uart_buffer[256];
+  err = f_getfree("", &free_clusters, &fatfs);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_getfree error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+    while (1);
+  }
+  total_size = (fatfs.n_fatent - 2) * fatfs.csize / 2 * 1024; // in bytes
+  free_space = free_clusters * fatfs.csize / 2 * 1024; // in bytes     
+  sprintf(uart_buffer, "SD card total size: %lu B, free space: %lu B\n", total_size, free_space);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  *free_byte = free_space;
+}
 
 FRESULT sd_card_create_file(const char* filename) {}
 
@@ -69,7 +82,8 @@ void sd_card_test(void) {
   }
   total_size = (fatfs.n_fatent - 2) * fatfs.csize / 2; // in KB
   free_space = free_clusters * fatfs.csize / 2;        // in KB
-  sprintf(uart_buffer, "SD card total size: %lu KB, free space: %lu KB\n", total_size, free_space);
+  sprintf(uart_buffer, "SD card total size: %lu MB, free space: %lu MB\n", total_size, free_space);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
 
   // // open a txt file and write data
   // // observe append or overwrite behavior, should be overwrite

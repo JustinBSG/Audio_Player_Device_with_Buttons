@@ -1,9 +1,9 @@
 ../Core/Src/sd_card_fs.c:10:6:sd_card_init	1
-../Core/Src/sd_card_fs.c:15:9:sd_card_mount	1
-../Core/Src/sd_card_fs.c:17:9:sd_card_unmount	1
-../Core/Src/sd_card_fs.c:19:9:sd_card_format	1
-../Core/Src/sd_card_fs.c:21:9:sd_card_get_free_space	1
-../Core/Src/sd_card_fs.c:23:9:sd_card_create_file	1
-../Core/Src/sd_card_fs.c:25:9:sd_card_read_file	1
-../Core/Src/sd_card_fs.c:27:9:sd_card_write_file	1
-../Core/Src/sd_card_fs.c:29:6:sd_card_test	4
+../Core/Src/sd_card_fs.c:15:9:sd_card_mount	2
+../Core/Src/sd_card_fs.c:27:9:sd_card_unmount	2
+../Core/Src/sd_card_fs.c:39:9:sd_card_format	1
+../Core/Src/sd_card_fs.c:41:9:sd_card_get_free_space	2
+../Core/Src/sd_card_fs.c:54:9:sd_card_create_file	1
+../Core/Src/sd_card_fs.c:56:9:sd_card_read_file	1
+../Core/Src/sd_card_fs.c:58:9:sd_card_write_file	1
+../Core/Src/sd_card_fs.c:60:6:sd_card_test	4
