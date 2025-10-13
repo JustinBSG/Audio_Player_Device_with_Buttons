@@ -6,6 +6,8 @@
 
 #include "fatfs.h"
 
+extern UART_HandleTypeDef huart1;
+
 void sd_card_init(void);
 FRESULT sd_card_mount(void);
 FRESULT sd_card_unmount(void);

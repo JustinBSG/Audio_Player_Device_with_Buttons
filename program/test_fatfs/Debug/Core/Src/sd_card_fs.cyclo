@@ -6,4 +6,4 @@
 ../Core/Src/sd_card_fs.c:23:9:sd_card_create_file	1
 ../Core/Src/sd_card_fs.c:25:9:sd_card_read_file	1
 ../Core/Src/sd_card_fs.c:27:9:sd_card_write_file	1
-../Core/Src/sd_card_fs.c:29:6:sd_card_test	10
+../Core/Src/sd_card_fs.c:29:6:sd_card_test	4

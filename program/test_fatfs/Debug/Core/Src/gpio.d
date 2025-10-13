@@ -1,8 +1,4 @@
-Middlewares/Third_Party/FatFs/src/option/ccsbcs.o: \
- ../Middlewares/Third_Party/FatFs/src/option/ccsbcs.c \
- ../Middlewares/Third_Party/FatFs/src/option/../ff.h \
- ../Middlewares/Third_Party/FatFs/src/option/../integer.h \
- ../FATFS/Target/ffconf.h ../Core/Inc/main.h \
+Core/Src/gpio.o: ../Core/Src/gpio.c ../Core/Inc/gpio.h ../Core/Inc/main.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h \
  ../Core/Inc/stm32f1xx_hal_conf.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_rcc.h \
@@ -27,9 +23,7 @@ Middlewares/Third_Party/FatFs/src/option/ccsbcs.o: \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h \
  ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
-../Middlewares/Third_Party/FatFs/src/option/../ff.h:
-../Middlewares/Third_Party/FatFs/src/option/../integer.h:
-../FATFS/Target/ffconf.h:
+../Core/Inc/gpio.h:
 ../Core/Inc/main.h:
 ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h:
 ../Core/Inc/stm32f1xx_hal_conf.h:

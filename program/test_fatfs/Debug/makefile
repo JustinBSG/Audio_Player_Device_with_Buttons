@@ -64,8 +64,8 @@ all: main-build
 main-build: test_fatfs.elf secondary-outputs
 
 # Tool invocations
-test_fatfs.elf test_fatfs.map: $(OBJS) $(USER_OBJS) F:\Program\Audio_Player_Device_with_Buttons\program\test_fatfs\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "test_fatfs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"F:\Program\Audio_Player_Device_with_Buttons\program\test_fatfs\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_fatfs.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+test_fatfs.elf test_fatfs.map: $(OBJS) $(USER_OBJS) C:\Users\user\Documents\program\audio_player\program\test_fatfs\STM32F103C8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "test_fatfs.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m3 -T"C:\Users\user\Documents\program\audio_player\program\test_fatfs\STM32F103C8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="test_fatfs.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

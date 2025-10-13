@@ -6,4 +6,4 @@
 ../Core/Src/sd_card_fs.c:23:9:sd_card_create_file	16	static
 ../Core/Src/sd_card_fs.c:25:9:sd_card_read_file	24	static
 ../Core/Src/sd_card_fs.c:27:9:sd_card_write_file	24	static
-../Core/Src/sd_card_fs.c:29:6:sd_card_test	528	static
+../Core/Src/sd_card_fs.c:29:6:sd_card_test	520	static

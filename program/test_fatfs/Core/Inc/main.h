@@ -65,10 +65,6 @@ void Error_Handler(void);
 #define SD_MISO_GPIO_Port GPIOA
 #define SD_MOSI_Pin GPIO_PIN_7
 #define SD_MOSI_GPIO_Port GPIOA
-#define DEBUG_TX_Pin GPIO_PIN_9
-#define DEBUG_TX_GPIO_Port GPIOA
-#define DEBUG_RX_Pin GPIO_PIN_10
-#define DEBUG_RX_GPIO_Port GPIOA
 
 /* USER CODE BEGIN Private defines */
 #define SD_SPI_HANDLE hspi1
