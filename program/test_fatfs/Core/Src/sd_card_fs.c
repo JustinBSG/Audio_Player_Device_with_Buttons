@@ -105,7 +105,18 @@ FRESULT sd_card_create_file(const char* filename) {
   return err;
 }
 
-FRESULT sd_card_delete_file(const char* filename) {}
+FRESULT sd_card_delete_file(const char* filename) {
+  char uart_buffer[256];
+  err = f_unlink(filename);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_unlink error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+    while (1);
+  }
+  sprintf(uart_buffer, "File %s deleted successfully.\n", filename);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  return err;
+}
 
 FRESULT sd_card_read_file(const char* filename, uint8_t* buffer, UINT bytes_to_read, UINT* bytes_read) {}
 
