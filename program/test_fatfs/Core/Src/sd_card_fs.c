@@ -53,7 +53,18 @@ FRESULT sd_card_get_free_space(int* free_byte) {
   *free_byte = free_space;
 }
 
-FRESULT sd_card_create_directory(const char* dir_name) {}
+FRESULT sd_card_create_directory(const char* dir_name) {
+  char uart_buffer[256];
+  err = f_mkdir(dir_name);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_mkdir error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+    while (1);
+  }
+  sprintf(uart_buffer, "Directory %s created successfully.\n", dir_name);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  return err;
+}
 
 FRESULT sd_card_delete_directory(const char* dir_name) {}
 
