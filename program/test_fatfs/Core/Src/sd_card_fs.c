@@ -12,6 +12,8 @@ void sd_card_init(void) {
   // TODO: need mounting before any file operations
 }
 
+// TODO: remove all while (1) loops in error handling after testing
+
 FRESULT sd_card_mount(void) {
   char uart_buffer[256];
   err = f_mount(&fatfs, "", 1);
@@ -71,6 +73,7 @@ FRESULT sd_card_create_directory(const char* dir_name) {
 
 FRESULT sd_card_delete_directory(const char* dir_name) {
   char uart_buffer[256];
+  // dir need to be empty to be deleted
   err = f_unlink(dir_name);
   if (err != FR_OK) {
     sprintf(uart_buffer, "f_unlink error: %d\n", err);
@@ -88,7 +91,19 @@ FRESULT sd_card_ls(char* filename[], int max_files, int* file_count) {}
 
 FRESULT sd_card_pwd(char* path, int max_len) {}
 
-FRESULT sd_card_create_file(const char* filename) {}
+FRESULT sd_card_create_file(const char* filename) {
+  char uart_buffer[256];
+  err = f_open(&file, filename, FA_CREATE_ALWAYS);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_open error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+    while (1);
+  }
+  f_close(&file);
+  sprintf(uart_buffer, "File %s created successfully.\n", filename);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  return err;
+}
 
 FRESULT sd_card_delete_file(const char* filename) {}
 
