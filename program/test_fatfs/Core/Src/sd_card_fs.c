@@ -22,6 +22,7 @@ FRESULT sd_card_mount(void) {
   }
   sprintf(uart_buffer, "SD card mounted successfully.\n");
   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  return err;
 }
 
 FRESULT sd_card_unmount(void) {
@@ -34,6 +35,7 @@ FRESULT sd_card_unmount(void) {
   }
   sprintf(uart_buffer, "SD card unmounted successfully.\n");
   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
+  return err;
 }
 
 FRESULT sd_card_format(void) {}
@@ -51,6 +53,7 @@ FRESULT sd_card_get_free_space(int* free_byte) {
   sprintf(uart_buffer, "SD card total size: %lu B, free space: %lu B\n", total_size, free_space);
   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, sizeof(uart_buffer) - 1, HAL_MAX_DELAY);
   *free_byte = free_space;
+  return err;
 }
 
 FRESULT sd_card_create_directory(const char* dir_name) {
