@@ -19,7 +19,7 @@ FRESULT sd_card_get_free_space(int* free_byte);
 
 FRESULT sd_card_create_directory(const char* dir_name);
 FRESULT sd_card_delete_directory(const char* dir_name);
-FRESULT sd_card_cd(const char* dir_name); // 
+FRESULT sd_card_cd(const char* dir_name);
 FRESULT sd_card_ls(char filename[][MAX_FILENAME_LENGTH], int max_files, int* file_count);
 FRESULT sd_card_pwd(char* path, int max_len); // 
 // FRESULT sd_card_tree(void);

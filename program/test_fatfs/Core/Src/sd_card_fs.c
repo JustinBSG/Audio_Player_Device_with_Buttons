@@ -150,7 +150,18 @@ FRESULT sd_card_ls(char filename[][MAX_FILENAME_LENGTH], int max_files, int *fil
   return res;
 }
 
-FRESULT sd_card_pwd(char *path, int max_len) {}
+FRESULT sd_card_pwd(char *path, int max_len) {
+  char uart_buffer[256];
+  err = f_getcwd(path, max_len);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_getcwd error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  } else {
+    sprintf(uart_buffer, "Current directory: %s\n", path);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  }
+  return err;
+}
 
 // static void print_tree(const char* path, int level) {
 //   DIR dir;
