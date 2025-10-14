@@ -94,8 +94,15 @@ int main(void) {
   // MX_FATFS_Init();
   /* USER CODE BEGIN 2 */
   sd_card_init();
-  HAL_UART_Transmit(&huart1, (uint8_t *)"SD Card Initialized, UART!\n", 29, HAL_MAX_DELAY);
-  
+  sd_card_mount();
+  HAL_UART_Transmit(&huart1, (uint8_t *)"Initialized and Mounted SD Card\n", 33, HAL_MAX_DELAY);
+
+  sd_card_test();
+
+  char filename[24][256];
+  int file_count = 0;
+  sd_card_ls(filename, 24, &file_count);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,7 +111,6 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    sd_card_test();
     HAL_UART_Transmit(&huart1, (uint8_t *)"Blocking\n", 13, HAL_MAX_DELAY);
     HAL_Delay(1000);
   }

@@ -38,6 +38,8 @@
 ../Middlewares/Third_Party/FatFs/src/ff.c:2759:9:f_write	48	static
 ../Middlewares/Third_Party/FatFs/src/ff.c:2881:9:f_sync	32	static
 ../Middlewares/Third_Party/FatFs/src/ff.c:2930:9:f_close	24	static
+../Middlewares/Third_Party/FatFs/src/ff.c:2986:9:f_chdir	584	static
+../Middlewares/Third_Party/FatFs/src/ff.c:3019:9:f_getcwd	616	static
 ../Middlewares/Third_Party/FatFs/src/ff.c:3102:9:f_lseek	72	static
 ../Middlewares/Third_Party/FatFs/src/ff.c:3260:9:f_opendir	40	static
 ../Middlewares/Third_Party/FatFs/src/ff.c:3316:9:f_closedir	24	static
