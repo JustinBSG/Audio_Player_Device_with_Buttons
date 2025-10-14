@@ -95,16 +95,17 @@ int main(void) {
   /* USER CODE BEGIN 2 */
   sd_card_init();
   sd_card_mount();
-  sd_card_format();
-  sd_card_unmount();
-  sd_card_mount();
   HAL_UART_Transmit(&huart1, (uint8_t *)"Initialized and Mounted SD Card\n", 33, HAL_MAX_DELAY);
 
   sd_card_test();
 
-  char filename[10][128];
+  char filename[MAX_FILES][MAX_FILENAME_LENGTH];
   int file_count = 0;
-  sd_card_ls(filename, 10, &file_count);
+  sd_card_ls(filename, MAX_FILES, &file_count);
+
+  sd_card_unmount();
+
+  HAL_UART_Transmit(&huart1, (uint8_t *)"Finished SD Card Operations\n", 28, HAL_MAX_DELAY);
 
   /* USER CODE END 2 */
 
@@ -114,7 +115,6 @@ int main(void) {
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-    HAL_UART_Transmit(&huart1, (uint8_t *)"Blocking\n", 13, HAL_MAX_DELAY);
     HAL_Delay(1000);
   }
   /* USER CODE END 3 */

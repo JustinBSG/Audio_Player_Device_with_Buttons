@@ -1,7 +1,7 @@
 #include "sd_card_fs.h"
 
 FATFS fatfs;          // Fatfs handle
-FIL file;              // File handle
+FIL file;             // File handle
 FRESULT err = FR_OK;  // Result
 UINT write_count, read_count;
 DWORD free_clusters;
@@ -53,7 +53,7 @@ FRESULT sd_card_format(void) {
   return err;
 }
 
-FRESULT sd_card_get_free_space(int* free_byte) {
+FRESULT sd_card_get_free_space(int *free_byte) {
   char uart_buffer[256];
   err = f_getfree("", &free_clusters, &fatfs);
   if (err != FR_OK) {
@@ -61,15 +61,15 @@ FRESULT sd_card_get_free_space(int* free_byte) {
     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
     while (1);
   }
-  total_size = (fatfs.n_fatent - 2) * fatfs.csize / 2 * 1024; // in bytes
-  free_space = free_clusters * fatfs.csize / 2 * 1024; // in bytes     
+  total_size = (fatfs.n_fatent - 2) * fatfs.csize / 2 * 1024;  // in bytes
+  free_space = free_clusters * fatfs.csize / 2 * 1024;         // in bytes
   sprintf(uart_buffer, "SD card total size: %lu B, free space: %lu B\n", total_size, free_space);
   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
   *free_byte = free_space;
   return err;
 }
 
-FRESULT sd_card_create_directory(const char* dir_name) {
+FRESULT sd_card_create_directory(const char *dir_name) {
   char uart_buffer[256];
   err = f_mkdir(dir_name);
   if (err != FR_OK) {
@@ -82,7 +82,7 @@ FRESULT sd_card_create_directory(const char* dir_name) {
   return err;
 }
 
-FRESULT sd_card_delete_directory(const char* dir_name) {
+FRESULT sd_card_delete_directory(const char *dir_name) {
   char uart_buffer[256];
   // dir need to be empty to be deleted
   err = f_unlink(dir_name);
@@ -96,48 +96,52 @@ FRESULT sd_card_delete_directory(const char* dir_name) {
   return err;
 }
 
-FRESULT sd_card_cd(const char* dir_name) {}
+FRESULT sd_card_cd(const char *dir_name) {}
 
-FRESULT sd_card_ls(char* filename[], int max_files, int* file_count) {
+FRESULT sd_card_ls(char filename[][MAX_FILENAME_LENGTH], int max_files, int *file_count) {
   DIR dir;
   FILINFO fno;
   char uart_buffer[256];
   FRESULT res;
-  
+
   *file_count = 0;
-  
+
   res = f_opendir(&dir, "");
   if (res != FR_OK) {
     sprintf(uart_buffer, "f_opendir error: %d\n", res);
     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
     while (1);
   }
-  
+
   sprintf(uart_buffer, "Directory listing:\n");
   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-  
+
   while (1) {
     res = f_readdir(&dir, &fno);
-    sprintf(uart_buffer, "fno.fname: %s\n", fno.fname);
-    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-    if (res != FR_OK || fno.fname[0] == 0) break;
-    
+    if (res != FR_OK || fno.fname[0] == 0)
+      break;
+
     if (*file_count < max_files) {
-      // strcpy(filename[*file_count], fno.fname);
+      strcpy(filename[*file_count], fno.fname);
+      // char temp[128];
+      // strcpy(temp, fno.fname);
+      // HAL_UART_Transmit(&huart1, "test1\n", strlen("test1\n"), HAL_MAX_DELAY);
+      // strcpy(filename[*file_count], temp);
+      // HAL_UART_Transmit(&huart1, "test2\n", strlen("test2\n"), HAL_MAX_DELAY);
       (*file_count)++;
     }
-    
+
     sprintf(uart_buffer, "%s\n", fno.fname);
     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
   }
-  
+
   f_closedir(&dir);
   return res;
 }
 
-FRESULT sd_card_pwd(char* path, int max_len) {}
+FRESULT sd_card_pwd(char *path, int max_len) {}
 
-FRESULT sd_card_create_file(const char* filename) {
+FRESULT sd_card_create_file(const char *filename) {
   char uart_buffer[256];
   err = f_open(&file, filename, FA_CREATE_ALWAYS);
   if (err != FR_OK) {
@@ -151,7 +155,7 @@ FRESULT sd_card_create_file(const char* filename) {
   return err;
 }
 
-FRESULT sd_card_delete_file(const char* filename) {
+FRESULT sd_card_delete_file(const char *filename) {
   char uart_buffer[256];
   err = f_unlink(filename);
   if (err != FR_OK) {
@@ -164,9 +168,9 @@ FRESULT sd_card_delete_file(const char* filename) {
   return err;
 }
 
-FRESULT sd_card_read_file(const char* filename, uint8_t* buffer, UINT bytes_to_read, UINT* bytes_read) {}
+FRESULT sd_card_read_file(const char *filename, uint8_t *buffer, UINT bytes_to_read, UINT *bytes_read) {}
 
-FRESULT sd_card_write_file(const char* filename, const uint8_t* data, UINT data_size, UINT* bytes_written) {}
+FRESULT sd_card_write_file(const char *filename, const uint8_t *data, UINT data_size, UINT *bytes_written) {}
 
 void sd_card_test(void) {
   char data[256];
