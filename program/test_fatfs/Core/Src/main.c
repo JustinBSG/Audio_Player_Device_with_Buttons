@@ -91,7 +91,7 @@ int main(void) {
   MX_GPIO_Init();
   MX_SPI1_Init();
   MX_USART1_UART_Init();
-  // MX_FATFS_Init();
+
   /* USER CODE BEGIN 2 */
   sd_card_init();
   sd_card_mount();
@@ -102,14 +102,11 @@ int main(void) {
 
   sd_card_test();
 
-  sd_card_create_directory("mydir1");
-  sd_card_create_directory("mydir2");
-
   char filename[MAX_FILES][MAX_FILENAME_LENGTH];
   int file_count = 0;
   sd_card_ls(filename, MAX_FILES, &file_count);
 
-  sd_card_delete_directory("mydir1");
+  sd_card_rename_file(filename[0], "testing.txt");
   sd_card_ls(filename, MAX_FILES, &file_count);
 
   sd_card_unmount();

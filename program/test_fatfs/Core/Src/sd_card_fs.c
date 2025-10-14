@@ -168,7 +168,18 @@ FRESULT sd_card_delete_file(const char *filename) {
   return err;
 }
 
-FRESULT sd_card_rename_file(const char *old_filename, const char *new_filename) {}
+FRESULT sd_card_rename_file(const char* old_filename, const char* new_filename) {
+  char uart_buffer[256];
+  err = f_rename(old_filename, new_filename);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_rename error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    while (1);
+  }
+  sprintf(uart_buffer, "File %s renamed to %s successfully.\n", old_filename, new_filename);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  return err;
+}
 
 FRESULT sd_card_read_file(const char *filename, uint8_t *buffer, UINT bytes_to_read, UINT *bytes_read) {}
 
