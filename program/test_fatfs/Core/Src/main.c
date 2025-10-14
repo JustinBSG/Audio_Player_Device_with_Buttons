@@ -99,10 +99,11 @@ int main(void) {
 
   sd_card_test();
 
+  sd_card_create_directory("mydir1");
+  sd_card_create_directory("mydir2");
+
   char filename[MAX_FILES][MAX_FILENAME_LENGTH];
   int file_count = 0;
-  sd_card_ls(filename, MAX_FILES, &file_count);
-  sd_card_delete_file(filename[0]);
   sd_card_ls(filename, MAX_FILES, &file_count);
 
   sd_card_unmount();
