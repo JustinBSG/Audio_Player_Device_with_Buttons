@@ -102,6 +102,8 @@ int main(void) {
   char filename[MAX_FILES][MAX_FILENAME_LENGTH];
   int file_count = 0;
   sd_card_ls(filename, MAX_FILES, &file_count);
+  sd_card_delete_file(filename[0]);
+  sd_card_ls(filename, MAX_FILES, &file_count);
 
   sd_card_unmount();
 
