@@ -6,10 +6,10 @@
 ../Core/Src/sd_card_fs.c:61:9:sd_card_create_directory	2
 ../Core/Src/sd_card_fs.c:74:9:sd_card_delete_directory	2
 ../Core/Src/sd_card_fs.c:88:9:sd_card_cd	1
-../Core/Src/sd_card_fs.c:90:9:sd_card_ls	6
-../Core/Src/sd_card_fs.c:122:9:sd_card_pwd	1
-../Core/Src/sd_card_fs.c:124:9:sd_card_create_file	2
-../Core/Src/sd_card_fs.c:138:9:sd_card_delete_file	2
-../Core/Src/sd_card_fs.c:151:9:sd_card_read_file	1
-../Core/Src/sd_card_fs.c:153:9:sd_card_write_file	1
-../Core/Src/sd_card_fs.c:155:6:sd_card_test	2
+../Core/Src/sd_card_fs.c:90:9:sd_card_ls	5
+../Core/Src/sd_card_fs.c:127:9:sd_card_pwd	1
+../Core/Src/sd_card_fs.c:129:9:sd_card_create_file	2
+../Core/Src/sd_card_fs.c:143:9:sd_card_delete_file	2
+../Core/Src/sd_card_fs.c:156:9:sd_card_read_file	1
+../Core/Src/sd_card_fs.c:158:9:sd_card_write_file	1
+../Core/Src/sd_card_fs.c:160:6:sd_card_test	2

@@ -40,7 +40,18 @@ FRESULT sd_card_unmount(void) {
   return err;
 }
 
-FRESULT sd_card_format(void) {}
+FRESULT sd_card_format(void) {
+  char uart_buffer[256];
+  err = f_mkfs("", 0, 0);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_mkfs error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    while (1);
+  }
+  sprintf(uart_buffer, "SD card formatted successfully.\n");
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  return err;
+}
 
 FRESULT sd_card_get_free_space(int* free_byte) {
   char uart_buffer[256];
@@ -90,35 +101,37 @@ FRESULT sd_card_cd(const char* dir_name) {}
 FRESULT sd_card_ls(char* filename[], int max_files, int* file_count) {
   DIR dir;
   FILINFO fno;
-  FRESULT res;
   char uart_buffer[256];
-  int count = 0;
-  res = f_opendir(&dir, ".");
+  FRESULT res;
+  
+  *file_count = 0;
+  
+  res = f_opendir(&dir, "");
   if (res != FR_OK) {
     sprintf(uart_buffer, "f_opendir error: %d\n", res);
     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
     while (1);
   }
+  
   sprintf(uart_buffer, "Directory listing:\n");
   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-
-  while (count < max_files) {
-    HAL_UART_Transmit(&huart1, "test1\n", strlen("test1\n"), HAL_MAX_DELAY);
-    res = f_readdir(&dir, &fno);
-    HAL_UART_Transmit(&huart1, "test2\n", strlen("test2\n"), HAL_MAX_DELAY);
-    if (res != FR_OK || fno.fname[0] == 0) 
-      break;
   
-    if (filename[count]) {
-      strcpy(filename[count], fno.fname);
+  while (1) {
+    res = f_readdir(&dir, &fno);
+    sprintf(uart_buffer, "fno.fname: %s\n", fno.fname);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    if (res != FR_OK || fno.fname[0] == 0) break;
+    
+    if (*file_count < max_files) {
+      // strcpy(filename[*file_count], fno.fname);
+      (*file_count)++;
     }
-
+    
     sprintf(uart_buffer, "%s\n", fno.fname);
     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-    count++;
   }
+  
   f_closedir(&dir);
-  *file_count = count;
   return res;
 }
 
