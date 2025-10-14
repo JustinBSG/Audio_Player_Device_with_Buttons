@@ -106,7 +106,7 @@ int main(void) {
   int file_count = 0;
   sd_card_ls(filename, MAX_FILES, &file_count);
 
-  sd_card_rename_file(filename[0], "testing.txt");
+  sd_card_create_file("myfile.txt");
   sd_card_ls(filename, MAX_FILES, &file_count);
 
   sd_card_unmount();
