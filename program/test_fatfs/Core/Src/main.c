@@ -95,6 +95,9 @@ int main(void) {
   /* USER CODE BEGIN 2 */
   sd_card_init();
   sd_card_mount();
+  sd_card_format();
+  sd_card_unmount();
+  sd_card_mount();
   HAL_UART_Transmit(&huart1, (uint8_t *)"Initialized and Mounted SD Card\n", 33, HAL_MAX_DELAY);
 
   sd_card_test();
@@ -104,6 +107,9 @@ int main(void) {
 
   char filename[MAX_FILES][MAX_FILENAME_LENGTH];
   int file_count = 0;
+  sd_card_ls(filename, MAX_FILES, &file_count);
+
+  sd_card_delete_directory("mydir1");
   sd_card_ls(filename, MAX_FILES, &file_count);
 
   sd_card_unmount();
