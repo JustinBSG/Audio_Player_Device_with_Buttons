@@ -101,13 +101,21 @@ int main(void) {
   HAL_UART_Transmit(&huart1, (uint8_t *)"Initialized and Mounted SD Card\n", 33, HAL_MAX_DELAY);
 
   sd_card_test();
-
+  sd_card_create_directory("mydir1");
+  sd_card_create_directory("mydir2");
+  sd_card_create_file("myfile.txt");
+  sd_card_create_file("mydir1/myfile1.txt");
+  sd_card_create_file("mydir2/myfile2.txt");
+  
   char filename[MAX_FILES][MAX_FILENAME_LENGTH];
   int file_count = 0;
   sd_card_ls(filename, MAX_FILES, &file_count);
+  HAL_UART_Transmit(&huart1, "\n", 1, HAL_MAX_DELAY);
 
-  sd_card_create_file("myfile.txt");
-  sd_card_delete_file(filename[0]);
+  sd_card_cd("mydir1");
+  sd_card_ls(filename, MAX_FILES, &file_count);
+
+  sd_card_cd("../mydir2");
   sd_card_ls(filename, MAX_FILES, &file_count);
 
   sd_card_unmount();

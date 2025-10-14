@@ -96,7 +96,18 @@ FRESULT sd_card_delete_directory(const char *dir_name) {
   return err;
 }
 
-FRESULT sd_card_cd(const char *dir_name) {}
+FRESULT sd_card_cd(const char *dir_name) {
+  char uart_buffer[256];
+  err = f_chdir(dir_name);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_chdir error: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    while (1);
+  }
+  sprintf(uart_buffer, "Changed directory to %s\n", dir_name);
+  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  return err;
+}
 
 FRESULT sd_card_ls(char filename[][MAX_FILENAME_LENGTH], int max_files, int *file_count) {
   DIR dir;
@@ -140,6 +151,55 @@ FRESULT sd_card_ls(char filename[][MAX_FILENAME_LENGTH], int max_files, int *fil
 }
 
 FRESULT sd_card_pwd(char *path, int max_len) {}
+
+// static void print_tree(const char* path, int level) {
+//   DIR dir;
+//   FILINFO fno;
+//   char uart_buffer[256];
+//   FRESULT res = f_opendir(&dir, path);
+//   if (res != FR_OK) {
+//     sprintf(uart_buffer, "f_opendir error in tree: %d\n", res);
+//     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+//     return;
+//   }
+  
+//   while (1) {
+//     res = f_readdir(&dir, &fno);
+//     if (res != FR_OK || fno.fname[0] == 0) break;
+    
+//     // Indentation
+//     for (int i = 0; i < level; i++) {
+//       HAL_UART_Transmit(&huart1, (uint8_t *)"  ", 2, HAL_MAX_DELAY);
+//     }
+    
+//     sprintf(uart_buffer, "%s", fno.fname);
+//     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    
+//     if (fno.fattrib & AM_DIR) {
+//       HAL_UART_Transmit(&huart1, (uint8_t *)"/\n", 2, HAL_MAX_DELAY);
+//       // Build new path
+//       char newpath[256];
+//       if (strcmp(path, "") == 0) {
+//         sprintf(newpath, "%s", fno.fname);
+//       } else {
+//         sprintf(newpath, "%s/%s", path, fno.fname);
+//       }
+//       print_tree(newpath, level + 1);
+//     } else {
+//       HAL_UART_Transmit(&huart1, (uint8_t *)"\n", 1, HAL_MAX_DELAY);
+//     }
+//   }
+  
+//   f_closedir(&dir);
+// }
+
+// FRESULT sd_card_tree(void) {
+//   char uart_buffer[256];
+//   sprintf(uart_buffer, "Directory tree:\n");
+//   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+//   print_tree("", 0);
+//   return FR_OK;
+// }
 
 FRESULT sd_card_create_file(const char *filename) {
   char uart_buffer[256];
