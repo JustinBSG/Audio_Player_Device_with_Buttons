@@ -21,13 +21,12 @@ FRESULT sd_card_create_directory(const char* dir_name);
 FRESULT sd_card_delete_directory(const char* dir_name);
 FRESULT sd_card_cd(const char* dir_name);
 FRESULT sd_card_ls(char filename[][MAX_FILENAME_LENGTH], int max_files, int* file_count);
-FRESULT sd_card_pwd(char* path, int max_len); // 
-// FRESULT sd_card_tree(void);
+FRESULT sd_card_pwd(char* path, int max_len);
 
 FRESULT sd_card_create_file(const char* filename);
 FRESULT sd_card_delete_file(const char* filename);
 FRESULT sd_card_rename_file(const char* old_filename, const char* new_filename);
-FRESULT sd_card_read_file(const char* filename, uint8_t* buffer, UINT bytes_to_read, UINT* bytes_read); // 
+FRESULT sd_card_read_file(const char* filename, uint8_t* buffer, UINT bytes_to_read, UINT* bytes_read);
 FRESULT sd_card_write_file(const char* filename, const uint8_t* data, UINT data_size, UINT* bytes_written); // 
 
 void sd_card_test(void);

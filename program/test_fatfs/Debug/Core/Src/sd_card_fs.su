@@ -8,9 +8,9 @@
 ../Core/Src/sd_card_fs.c:99:9:sd_card_cd	272	static
 ../Core/Src/sd_card_fs.c:112:9:sd_card_ls	856	static
 ../Core/Src/sd_card_fs.c:153:9:sd_card_pwd	272	static
-../Core/Src/sd_card_fs.c:215:9:sd_card_create_file	272	static
-../Core/Src/sd_card_fs.c:229:9:sd_card_delete_file	272	static
-../Core/Src/sd_card_fs.c:242:9:sd_card_rename_file	272	static
-../Core/Src/sd_card_fs.c:255:9:sd_card_read_file	24	static
-../Core/Src/sd_card_fs.c:257:9:sd_card_write_file	24	static
-../Core/Src/sd_card_fs.c:259:6:sd_card_test	528	static
+../Core/Src/sd_card_fs.c:166:9:sd_card_create_file	272	static
+../Core/Src/sd_card_fs.c:180:9:sd_card_delete_file	272	static
+../Core/Src/sd_card_fs.c:193:9:sd_card_rename_file	272	static
+../Core/Src/sd_card_fs.c:206:9:sd_card_read_file	296	static
+../Core/Src/sd_card_fs.c:234:9:sd_card_write_file	24	static
+../Core/Src/sd_card_fs.c:236:6:sd_card_test	528	static

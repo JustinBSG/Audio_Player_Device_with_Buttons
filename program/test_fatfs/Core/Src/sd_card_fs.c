@@ -163,55 +163,6 @@ FRESULT sd_card_pwd(char *path, int max_len) {
   return err;
 }
 
-// static void print_tree(const char* path, int level) {
-//   DIR dir;
-//   FILINFO fno;
-//   char uart_buffer[256];
-//   FRESULT res = f_opendir(&dir, path);
-//   if (res != FR_OK) {
-//     sprintf(uart_buffer, "f_opendir error in tree: %d\n", res);
-//     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-//     return;
-//   }
-  
-//   while (1) {
-//     res = f_readdir(&dir, &fno);
-//     if (res != FR_OK || fno.fname[0] == 0) break;
-    
-//     // Indentation
-//     for (int i = 0; i < level; i++) {
-//       HAL_UART_Transmit(&huart1, (uint8_t *)"  ", 2, HAL_MAX_DELAY);
-//     }
-    
-//     sprintf(uart_buffer, "%s", fno.fname);
-//     HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-    
-//     if (fno.fattrib & AM_DIR) {
-//       HAL_UART_Transmit(&huart1, (uint8_t *)"/\n", 2, HAL_MAX_DELAY);
-//       // Build new path
-//       char newpath[256];
-//       if (strcmp(path, "") == 0) {
-//         sprintf(newpath, "%s", fno.fname);
-//       } else {
-//         sprintf(newpath, "%s/%s", path, fno.fname);
-//       }
-//       print_tree(newpath, level + 1);
-//     } else {
-//       HAL_UART_Transmit(&huart1, (uint8_t *)"\n", 1, HAL_MAX_DELAY);
-//     }
-//   }
-  
-//   f_closedir(&dir);
-// }
-
-// FRESULT sd_card_tree(void) {
-//   char uart_buffer[256];
-//   sprintf(uart_buffer, "Directory tree:\n");
-//   HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-//   print_tree("", 0);
-//   return FR_OK;
-// }
-
 FRESULT sd_card_create_file(const char *filename) {
   char uart_buffer[256];
   err = f_open(&file, filename, FA_CREATE_ALWAYS);
@@ -252,7 +203,33 @@ FRESULT sd_card_rename_file(const char* old_filename, const char* new_filename) 
   return err;
 }
 
-FRESULT sd_card_read_file(const char *filename, uint8_t *buffer, UINT bytes_to_read, UINT *bytes_read) {}
+FRESULT sd_card_read_file(const char *filename, uint8_t *buffer, UINT bytes_to_read, UINT *bytes_read) {
+  char uart_buffer[256];
+  err = f_open(&file, filename, FA_READ);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_open error for read: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  } else {
+    UINT file_size = file.fsize;
+    if (file_size > bytes_to_read) {
+      sprintf(uart_buffer, "File size %u exceeds buffer size %u\n", file_size, bytes_to_read);
+      HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+      f_close(&file);
+      return FR_INVALID_PARAMETER;
+    } else {
+      err = f_read(&file, buffer, file_size, bytes_read);
+      f_close(&file);
+      if (err != FR_OK) {
+        sprintf(uart_buffer, "f_read error: %d\n", err);
+        HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+      } else {
+        sprintf(uart_buffer, "Read %u bytes from %s\n", *bytes_read, filename);
+        HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+      }
+    }
+  }
+  return err;
+}
 
 FRESULT sd_card_write_file(const char *filename, const uint8_t *data, UINT data_size, UINT *bytes_written) {}
 
@@ -261,7 +238,6 @@ void sd_card_test(void) {
   char uart_buffer[256];
 
   // // open a txt file and write data
-  // // observe append or overwrite behavior, should be overwrite
   err = f_open(&file, "test.txt", FA_WRITE | FA_READ | FA_CREATE_ALWAYS);
   if (err != FR_OK) {
     sprintf(uart_buffer, "f_open error: %d\n", err);
