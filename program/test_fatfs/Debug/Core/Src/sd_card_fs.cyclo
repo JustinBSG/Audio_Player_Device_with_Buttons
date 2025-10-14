@@ -12,5 +12,5 @@
 ../Core/Src/sd_card_fs.c:180:9:sd_card_delete_file	2
 ../Core/Src/sd_card_fs.c:193:9:sd_card_rename_file	2
 ../Core/Src/sd_card_fs.c:206:9:sd_card_read_file	4
-../Core/Src/sd_card_fs.c:234:9:sd_card_write_file	1
-../Core/Src/sd_card_fs.c:236:6:sd_card_test	2
+../Core/Src/sd_card_fs.c:234:9:sd_card_write_file	3
+../Core/Src/sd_card_fs.c:254:6:sd_card_test	1

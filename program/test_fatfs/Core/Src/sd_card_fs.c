@@ -231,26 +231,29 @@ FRESULT sd_card_read_file(const char *filename, uint8_t *buffer, UINT bytes_to_r
   return err;
 }
 
-FRESULT sd_card_write_file(const char *filename, const uint8_t *data, UINT data_size, UINT *bytes_written) {}
+FRESULT sd_card_write_file(const char *filename, const uint8_t *data, UINT data_size, UINT *bytes_written) {
+  char uart_buffer[256];
+  err = f_open(&file, filename, FA_WRITE | FA_CREATE_ALWAYS);
+  if (err != FR_OK) {
+    sprintf(uart_buffer, "f_open error for write: %d\n", err);
+    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+  } else {
+    err = f_write(&file, data, data_size, bytes_written);
+    f_close(&file);
+    if (err != FR_OK) {
+      sprintf(uart_buffer, "f_write error: %d\n", err);
+      HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    } else {
+      sprintf(uart_buffer, "Wrote %u bytes to %s\n", *bytes_written, filename);
+      HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
+    }
+  }
+  return err;
+}
 
 void sd_card_test(void) {
   char data[256];
   char uart_buffer[256];
-
-  // // open a txt file and write data
-  err = f_open(&file, "test.txt", FA_WRITE | FA_READ | FA_CREATE_ALWAYS);
-  if (err != FR_OK) {
-    sprintf(uart_buffer, "f_open error: %d\n", err);
-    HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-    while (1);
-  }
-  sprintf(uart_buffer, "File created/opened successfully.\n");
-  HAL_UART_Transmit(&huart1, (uint8_t *)uart_buffer, strlen(uart_buffer), HAL_MAX_DELAY);
-  f_puts("Hello, World!1\n", &file);
-  memset(data, 0, sizeof(data));
-  strcpy(data, "Hello, World!2\n");
-  f_write(&file, data, strlen(data), &write_count);
-  f_close(&file);
 
   // // open txt file and read data
   // err = f_open(&file, "test.txt", FA_READ);

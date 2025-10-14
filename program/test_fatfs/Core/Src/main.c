@@ -100,12 +100,23 @@ int main(void) {
   sd_card_mount();
   HAL_UART_Transmit(&huart1, (uint8_t *)"Initialized and Mounted SD Card\n", 33, HAL_MAX_DELAY);
 
-  sd_card_test();
-  
-  char test_data[256];
+  char test_data_write_1[] = "testing123\ntesting456\n";
+  int test_write_count = 0;
+  sd_card_write_file("test.txt", (uint8_t *)test_data_write_1, sizeof(test_data_write_1), &test_write_count);
+  HAL_UART_Transmit(&huart1, (uint8_t *)"Wrote test.txt\n", 15, HAL_MAX_DELAY);
+
+  char test_data_read_1[256];
   int test_read_count = 0;
-  sd_card_read_file("test.txt", (uint8_t *)test_data, sizeof(test_data), &test_read_count);
-  HAL_UART_Transmit(&huart1, (uint8_t *)test_data, test_read_count, HAL_MAX_DELAY);
+  sd_card_read_file("test.txt", (uint8_t *)test_data_read_1, sizeof(test_data_read_1), &test_read_count);
+  HAL_UART_Transmit(&huart1, (uint8_t *)test_data_read_1, test_read_count, HAL_MAX_DELAY);
+
+  char test_data_write_2[] = "line1\nline2\nline3\nline4\nline5\n";
+  sd_card_write_file("test.txt", (uint8_t *)test_data_write_2, sizeof(test_data_write_2), &test_write_count);
+  HAL_UART_Transmit(&huart1, (uint8_t *)"Wrote test.txt\n", 16, HAL_MAX_DELAY);
+
+  char test_data_read_2[256];
+  sd_card_read_file("test.txt", (uint8_t *)test_data_read_2, sizeof(test_data_read_2), &test_read_count);
+  HAL_UART_Transmit(&huart1, (uint8_t *)test_data_read_2, test_read_count, HAL_MAX_DELAY);
 
   sd_card_unmount();
 
