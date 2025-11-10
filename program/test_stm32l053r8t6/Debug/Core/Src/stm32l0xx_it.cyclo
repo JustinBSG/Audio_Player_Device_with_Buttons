@@ -3,4 +3,4 @@
 ../Core/Src/stm32l0xx_it.c:96:6:SVC_Handler	1
 ../Core/Src/stm32l0xx_it.c:108:6:PendSV_Handler	1
 ../Core/Src/stm32l0xx_it.c:120:6:SysTick_Handler	1
-../Core/Src/stm32l0xx_it.c:140:6:EXTI4_15_IRQHandler	3
+../Core/Src/stm32l0xx_it.c:140:6:EXTI4_15_IRQHandler	1

@@ -139,14 +139,7 @@ void SysTick_Handler(void) {
  */
 void EXTI4_15_IRQHandler(void) {
   /* USER CODE BEGIN EXTI4_15_IRQn 0 */
-  if (HAL_GPIO_ReadPin(GPIOC, GPIO_PIN_13) == GPIO_PIN_SET) {
-    if (stopmode_active) {
-      HAL_ResumeTick();
-      stopmode_active = 0;
-    } else {
-      flag_stop = 1;
-    }
-  }
+
   /* USER CODE END EXTI4_15_IRQn 0 */
   HAL_GPIO_EXTI_IRQHandler(GPIO_PIN_13);
   /* USER CODE BEGIN EXTI4_15_IRQn 1 */
